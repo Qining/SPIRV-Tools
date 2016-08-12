@@ -91,6 +91,14 @@ class DefUseManager {
   bool ReplaceAllUsesWith(uint32_t before, uint32_t after);
 
  private:
+  // Clear the internal def-use record of a defined id. Returns true on
+  // success, false if the given |def_id| is not recorded by this manager. This
+  // method erases both the uses of |def_id| and the |def_id|-generating
+  // instruction's use information kept in this manager, but not the operands
+  // in the original instructions. This method does not turn the
+  // |def_id|-generating instruction to nop.
+  bool ClearRecordFor(uint32_t def_id);
+
   using ResultIdToUsedIdsMap =
       std::unordered_map<uint32_t, std::vector<uint32_t>>;
 
